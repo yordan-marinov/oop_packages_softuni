@@ -52,9 +52,9 @@ class MovieWorld:
     def __repr__(self):
         result = ""
         for customer in self.customers:
-            result += customer.__repr__() + "\n"
+            result += customer.__repr__ + "\n"
         for dvd in self.dvds:
-            result += dvd.__repr__() + "\n"
+            result += dvd.__repr__ + "\n"
 
         return result
 

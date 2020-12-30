@@ -38,12 +38,12 @@ class Storage:
         self.documents.remove(self.get_document_obj_by_id(document_id))
 
     def get_document(self, document_id):
-        return self.get_document_obj_by_id(document_id).__repr__()
+        return self.get_document_obj_by_id(document_id)
 
     def __repr__(self):
         result = ""
         for doc in self.documents:
-            result += doc.__repr__() + "\n"
+            result += doc.__repr__ + "\n"
 
         return result
 

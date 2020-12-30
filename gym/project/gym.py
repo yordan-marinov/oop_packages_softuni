@@ -25,11 +25,11 @@ class Gym:
         subscription = self.get_subscription_form_id_number(subscription_id)
         # equipment = [e for e in self.equipment if e.id == subscription.exercise_id][0]
 
-        result = subscription.__repr__() + "\n"
-        result += Gym.get_obj_from_id_number(self.customers, subscription.customer_id).__repr__() + "\n"
-        result += Gym.get_obj_from_id_number(self.trainers, subscription.trainer_id).__repr__() + "\n"
-        result += Gym.get_obj_from_id_number(self.equipment, subscription.exercise_id).__repr__() + "\n"
-        result += Gym.get_obj_from_id_number(self.plans, subscription.exercise_id).__repr__() + "\n"
+        result = subscription.__repr__ + "\n"
+        result += Gym.get_obj_from_id_number(self.customers, subscription.customer_id).__repr__ + "\n"
+        result += Gym.get_obj_from_id_number(self.trainers, subscription.trainer_id).__repr__ + "\n"
+        result += Gym.get_obj_from_id_number(self.equipment, subscription.exercise_id).__repr__ + "\n"
+        result += Gym.get_obj_from_id_number(self.plans, subscription.exercise_id).__repr__ + "\n"
 
         return result
 

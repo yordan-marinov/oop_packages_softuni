@@ -68,7 +68,7 @@ class Zoo:
 
     def lions(self) -> list:
         result = [
-            animal.__repr__()
+            animal.__repr__
             for animal in self.animals
             if animal.__class__.__name__ == "Lion"
         ]
@@ -79,7 +79,7 @@ class Zoo:
 
     def tigers(self) -> list:
         result = [
-            animal.__repr__()
+            animal.__repr__
             for animal in self.animals
             if animal.__class__.__name__ == "Tiger"
         ]
@@ -90,7 +90,7 @@ class Zoo:
 
     def cheetahs(self) -> list:
         result = [
-            animal.__repr__()
+            animal.__repr__
             for animal in self.animals
             if animal.__class__.__name__ == "Cheetah"
         ]
@@ -112,7 +112,7 @@ class Zoo:
 
     def keepers(self) -> list:
         result = [
-            worker.__repr__()
+            worker.__repr__
             for worker in self.workers
             if worker.__class__.__name__ == "Keeper"
         ]
@@ -123,7 +123,7 @@ class Zoo:
 
     def caretakers(self) -> list:
         result = [
-            worker.__repr__()
+            worker.__repr__
             for worker in self.workers
             if worker.__class__.__name__ == "Caretaker"
         ]
@@ -134,7 +134,7 @@ class Zoo:
 
     def vets(self) -> list:
         result = [
-            worker.__repr__()
+            worker.__repr__
             for worker in self.workers
             if worker.__class__.__name__ == "Vet"
         ]
