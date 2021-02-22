@@ -1,7 +1,7 @@
 class Tiger:
-    def __init__(self, name: str, gender: str, age: int):
-        self.name: str = name
-        self.gender: str = gender
+    def __init__(self, name:str, gender: str, age: int):
+        self.name = name
+        self.gender = gender
         self.age: int = age
 
     @staticmethod

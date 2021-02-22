@@ -1,155 +1,106 @@
+from project.caretaker import Caretaker
+from project.cheetah import Cheetah
+from project.keeper import Keeper
+from project.lion import Lion
+from project.tiger import Tiger
+from project.vet import Vet
+
+
 class Zoo:
     def __init__(
-            self, name: str,
-            budget: int,
-            animal_capacity: int,
-            workers_capacity: int
+        self, name: str, budget: int, animal_capacity: int, workers_capacity: int
     ):
         self.name: str = name
-        self.__budget: int = budget
-        self.__animal_capacity: int = animal_capacity
-        self.__workers_capacity: int = workers_capacity
-        self.animals: list = []
-        self.workers: list = []
+        self.__budget = budget
+        self.__animal_capacity = animal_capacity
+        self.__workers_capacity = workers_capacity
+        self.animals = []
+        self.workers = []
 
-    def add_animal(self, animal: object, price: int) -> str:
-        if self.__budget < price:
-            return "Not enough budget"
+    @property
+    def budget(self):
+        return self.__budget
+    
+    @budget.setter
+    def budget(self, amount):
+        self.__budget += amount
 
-        if len(self.animals) >= self.__animal_capacity:
+    
+    def add_animal(self, animal, price):
+        if self.__animal_capacity <= len(self.animals):
             return "Not enough space for animal"
-
-        self.animals.append(animal)
+        if price > self.__budget:
+            return "Not enough budget"
         self.__budget -= price
+        self.animals.append(animal)
         return f"{animal.name} the {animal.__class__.__name__} added to the zoo"
 
-    def hire_worker(self, worker: object) -> str:
+    def hire_worker(self, worker):
         if len(self.workers) >= self.__workers_capacity:
             return "Not enough space for worker"
-
         self.workers.append(worker)
         return f"{worker.name} the {worker.__class__.__name__} hired successfully"
 
-    @staticmethod
-    def get_object_by_name_from_list(lst_obj: list, name: str):
-        return [obj for obj in lst_obj if obj.name == name][0]
-
-    def fire_worker(self, worker_name) -> str:
-        worker_object_in_list = Zoo.get_object_by_name_from_list(self.workers, worker_name)
-
-        if not worker_object_in_list:
+    def fire_worker(self, worker_name):
+        worker = [w for w in self.workers if w.name == worker_name]
+        if not worker:
             return f"There is no {worker_name} in the zoo"
-
-        self.workers.remove(worker_object_in_list)
+        self.workers.remove(worker[0])
         return f"{worker_name} fired successfully"
 
-    def all_workers_salaries(self) -> int:
-        return sum(worker.salary for worker in self.workers)
-
-    def pay_workers(self) -> str:
-        if self.__budget < self.all_workers_salaries():
+    def pay_workers(self):
+        salaries = sum(w.salary for w in self.workers)
+        if self.__budget < salaries:
             return "You have no budget to pay your workers. They are unhappy"
-
-        self.__budget -= self.all_workers_salaries()
+        self.__budget -= salaries
         return f"You payed your workers. They are happy. Budget left: {self.__budget}"
 
-    def all_animal_tends(self) -> int:
-        return sum(animal.get_needs() for animal in self.animals)
-
-    def tend_animals(self) -> str:
-        if self.__budget < self.all_animal_tends():
+    def tend_animals(self):
+        tends = sum(a.get_needs() for a in self.animals)
+        if self.__budget < tends:
             return "You have no budget to tend the animals. They are unhappy."
-
-        self.__budget -= self.all_animal_tends()
+        self.__budget -= tends
         return f"You tended all the animals. They are happy. Budget left: {self.__budget}"
 
     def profit(self, amount):
         self.__budget += amount
 
-    def lions(self) -> list:
-        result = [
-            animal.__repr__
-            for animal in self.animals
-            if animal.__class__.__name__ == "Lion"
-        ]
-        if not result:
-            return []
+    def animals_status(self):
+        result = f"You have {len(self.animals)} animals\n"
 
-        return result
+        lions = [l for l in self.animals if isinstance(l, Lion)]
+        result += f"----- {len(lions)} Lions:\n"
+        for lion in lions:
+            result += f"{lion}\n"
 
-    def tigers(self) -> list:
-        result = [
-            animal.__repr__
-            for animal in self.animals
-            if animal.__class__.__name__ == "Tiger"
-        ]
-        if not result:
-            return []
+        tigers = [t for t in self.animals if isinstance(t, Tiger)]
+        result += f"----- {len(tigers)} Tigers:\n"
+        for tiger in tigers:
+            result += f"{tiger}\n"
 
-        return result
+        cheetahs = [c for c in self.animals if isinstance(c, Cheetah)]
+        result += f"----- {len(cheetahs)} Cheetahs:\n"
+        for cheetah in cheetahs:
+            result += f"{cheetah}\n"
 
-    def cheetahs(self) -> list:
-        result = [
-            animal.__repr__
-            for animal in self.animals
-            if animal.__class__.__name__ == "Cheetah"
-        ]
-        if not result:
-            return []
+        return result.strip()
 
-        return result
-
-    def animals_status(self) -> str:
-        result = f"You have {len(self.animals)} animals" + "\n"
-        result += f"----- {len(self.lions())} Lions:\n"
-        result += '\n'.join(self.lions()) + "\n"
-        result += f"----- {len(self.tigers())} Tigers:\n"
-        result += '\n'.join(self.tigers()) + "\n"
-        result += f"----- {len(self.cheetahs())} Cheetahs:\n"
-        result += '\n'.join(self.cheetahs())
-
-        return result
-
-    def keepers(self) -> list:
-        result = [
-            worker.__repr__
-            for worker in self.workers
-            if worker.__class__.__name__ == "Keeper"
-        ]
-        if not result:
-            return []
-
-        return result
-
-    def caretakers(self) -> list:
-        result = [
-            worker.__repr__
-            for worker in self.workers
-            if worker.__class__.__name__ == "Caretaker"
-        ]
-        if not result:
-            return []
-
-        return result
-
-    def vets(self) -> list:
-        result = [
-            worker.__repr__
-            for worker in self.workers
-            if worker.__class__.__name__ == "Vet"
-        ]
-        if not result:
-            return []
-
-        return result
-
-    def workers_status(self) -> str:
+    def workers_status(self):
         result = f"You have {len(self.workers)} workers\n"
-        result += f"----- {len(self.keepers())} Keepers:\n"
-        result += '\n'.join(self.keepers()) + "\n"
-        result += f"----- {len(self.caretakers())} Caretakers:\n"
-        result += '\n'.join(self.caretakers()) + "\n"
-        result += f"----- {len(self.vets())} Vets:\n"
-        result += '\n'.join(self.vets())
 
-        return result
+        keepers = [k for k in self.workers if isinstance(k, Keeper)]
+        result += f"----- {len(keepers)} Keepers:\n"
+        for keeper in keepers:
+            result += f"{keeper}\n"
+
+        caretakers = [c for c in self.workers if isinstance(c, Caretaker)]
+        result += f"----- {len(caretakers)} Caretakers:\n"
+        for caretaker in caretakers:
+            result += f"{caretaker}\n"
+
+        vets = [v for v in self.workers if isinstance(v, Vet)]
+        result += f"----- {len(vets)} Vets:\n"
+        for vet in vets:
+            result += f"{vet}\n"
+
+        return result.strip()
