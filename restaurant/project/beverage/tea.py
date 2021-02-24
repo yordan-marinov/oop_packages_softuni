@@ -1,4 +1,3 @@
-# from restaurant.project.beverage.hot_beverage import HotBeverage
 from project.beverage.hot_beverage import HotBeverage
 
 

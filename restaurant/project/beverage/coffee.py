@@ -1,15 +1,15 @@
-# from restaurant.project.beverage.hot_beverage import HotBeverage
 from project.beverage.hot_beverage import HotBeverage
 
 
 class Coffee(HotBeverage):
-    COFFEE_MILLILITERS = 50
-    COFFEE_PRICE = 3.50
+    __MILLILITERS = 50.0
+    __PRICE = 3.50
 
-    def __init__(self, name, caffeine):
-        HotBeverage.__init__(self, name, Coffee.COFFEE_PRICE, self.COFFEE_MILLILITERS)
+    def __init__(self, name: str, price: float, milliliters: float, caffeine: float):
+        HotBeverage.__init__(self, name, Coffee.__PRICE, self.__MILLILITERS)
         self.__caffeine = caffeine
 
     @property
     def caffeine(self):
         return self.__caffeine
+ 
