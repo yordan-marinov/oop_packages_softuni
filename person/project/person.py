@@ -1,4 +1,5 @@
 class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
+    def __init__(self, name: str, age: str):
+        self.name: str = name
+        self.age: int = age
+        
