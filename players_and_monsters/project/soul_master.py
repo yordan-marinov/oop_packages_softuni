@@ -1,5 +1,6 @@
-from players_and_monsters.project.dark_wizard import DarkWizard
+from project.dark_wizard import DarkWizard
 
 
 class SoulMaster(DarkWizard):
-    pass
+    def __init__(self, username, level):
+        DarkWizard.__init__(self, username, level)

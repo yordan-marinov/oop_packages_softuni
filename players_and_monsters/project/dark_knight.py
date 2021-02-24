@@ -1,5 +1,6 @@
-from players_and_monsters.project.knight import Knight
+from project.knight import Knight
 
 
 class DarkKnight(Knight):
-    pass
+    def __init__(self, username, level):
+        Knight.__init__(self, username, level)
