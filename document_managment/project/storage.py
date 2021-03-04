@@ -41,14 +41,17 @@ class Storage:
         return self.get_document_obj_by_id(document_id)
 
     def __repr__(self):
-        result = ""
-        for doc in self.documents:
-            result += doc.__repr__ + "\n"
+        # result = ""
+        # for doc in self.documents:
+        #     result += doc.__repr__ + "\n"
 
-        return result
+        # return result
+        return "\n".join(str(d) for d in self.documents)
 
     def get_category_by_id(self, category_id):
-        category_obj = [category for category in self.categories if category.id == category_id][0]
+        category_obj = [
+            category for category in self.categories if category.id == category_id
+        ][0]
         return category_obj
 
     def get_topic_obj_by_id(self, topic_id: int):
@@ -56,28 +59,7 @@ class Storage:
         return topic_obj
 
     def get_document_obj_by_id(self, document_id: int):
-        document_obj = [document for document in self.documents if document.id == document_id][0]
+        document_obj = [
+            document for document in self.documents if document.id == document_id
+        ][0]
         return document_obj
-
-
-from document_managment.project.category import Category
-from document_managment.project.document import Document
-from document_managment.project.topic import Topic
-
-c1 = Category(1, "work")
-t1 = Topic(1, "daily tasks", "C:\\work_documents")
-d1 = Document(1, 1, 1, "finilize project")
-
-d1.add_tag("urgent")
-d1.add_tag("work")
-
-storage = Storage()
-storage.add_category(c1)
-storage.add_topic(t1)
-storage.add_document(d1)
-
-print(c1)
-print(t1)
-print(storage.get_document(1))
-print(storage)
-
