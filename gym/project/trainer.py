@@ -1,22 +1,14 @@
 class Trainer:
-    auto_trainer_id_number_creator = 1
+    _autoincrement_id = 0
 
     def __init__(self, name: str):
         self.name: str = name
-        self.id: int = Trainer.auto_trainer_id_number_creator
-        Trainer.auto_trainer_id_number_creator += 1
+        Trainer._autoincrement_id += 1
+        self.id = Trainer._autoincrement_id
 
     def __repr__(self):
         return f"Trainer <{self.id}> {self.name}"
 
     @staticmethod
-    def git_next_id():
-        return Trainer.auto_trainer_id_number_creator
-
-
-# trainer = Trainer("Peter")
-# print(trainer)
-# trainer2 = Trainer("Jordan")
-# print(trainer2)
-# print(Trainer.git_next_id())
-# print(trainer2.__dict__)
+    def get_next_id():
+        return Trainer._autoincrement_id + 1
