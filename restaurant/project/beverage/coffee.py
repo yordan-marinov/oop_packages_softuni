@@ -2,14 +2,17 @@ from project.beverage.hot_beverage import HotBeverage
 
 
 class Coffee(HotBeverage):
-    __MILLILITERS = 50.0
-    __PRICE = 3.50
+    MILLILITERS = 50.0
+    PRICE = 3.50
 
-    def __init__(self, name: str, price: float, milliliters: float, caffeine: float):
-        HotBeverage.__init__(self, name, Coffee.__PRICE, self.__MILLILITERS)
-        self.__caffeine = caffeine
+    def __init__(self, name: str, caffeine: float):
+        super().__init__(name, price=self.PRICE, milliliters=self.MILLILITERS)
+        self.caffeine = caffeine
 
     @property
     def caffeine(self):
         return self.__caffeine
- 
+    
+    @caffeine.setter
+    def caffeine(self, caffeine):
+        self.__caffeine = caffeine
