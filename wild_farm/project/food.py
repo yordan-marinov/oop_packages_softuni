@@ -2,7 +2,7 @@ from abc import ABC
 
 
 class Food(ABC):
-    def __init__(self, quantity: float):
+    def __init__(self, quantity: int):
         self.quantity = quantity
 
 
