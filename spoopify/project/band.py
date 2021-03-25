@@ -3,26 +3,30 @@ from project.album import Album
 
 class Band:
     def __init__(self, name: str):
-        self.name = name
-        self.albums = []
+        self.name: str = name
+        self.albums: list = []
 
     def add_album(self, album: Album):
         if album in self.albums:
             return f"Band {self.name} already has {album.name} in their library."
         self.albums.append(album)
         return f"Band {self.name} has added their newest album {album.name}."
-
+    
+    def find_album_by_name(self, name):
+        obj = [a for a in self.albums if a.name == name]
+        if obj: 
+            return obj[0]
+    
     def remove_album(self, album_name: str):
-        searched_album = [a for a in self.albums if a.name == album_name]
-        if not searched_album:
+        if not self.find_album_by_name(album_name):
             return f"Album {album_name} is not found."
-        if searched_album[0].published:
-            return "Album has been published. It cannot be removed."
-        self.albums.remove(searched_album[0])
+        if self.find_album_by_name(album_name).published:
+            return f"Album has been published. It cannot be removed."
+        self.albums.remove(self.find_album_by_name(album_name))
         return f"Album {album_name} has been removed."
-
+    
     def details(self):
-        result = f"Band {self.name}\n"
+        res = f"Band {self.name}\n"
         for a in self.albums:
-            result += a.details()
-        return result
+            res += a.details()
+        return res
