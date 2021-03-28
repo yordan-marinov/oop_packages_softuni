@@ -7,64 +7,73 @@ from project.vet import Vet
 
 
 class Zoo:
-    def __init__(
-        self, name: str, budget: int, animal_capacity: int, workers_capacity: int
-    ):
+    def __init__(self, name: str, budget: int, animal_capacity: int, workers_capacity: int):
+        self.__budget: int = budget
+        self.__animal_capacity: int = animal_capacity
+        self.__workers_capacity: int = workers_capacity
         self.name: str = name
-        self.__budget = budget
-        self.__animal_capacity = animal_capacity
-        self.__workers_capacity = workers_capacity
-        self.animals = []
-        self.workers = []
-
-    @property
-    def budget(self):
-        return self.__budget
+        self.animals: list = []
+        self.workers: list = []
     
-    @budget.setter
-    def budget(self, amount):
-        self.__budget += amount
-
+    @staticmethod   
+    def is_enough_space(lst, capacity):
+        return len(lst) < capacity
     
-    def add_animal(self, animal, price):
-        if self.__animal_capacity <= len(self.animals):
+    @staticmethod
+    def is_enough_budget(budget, amount):
+        return amount <= budget
+    
+    @staticmethod
+    def find_obj_by_name(lst_objs, name):
+        searched_obj = [obj for obj in lst_objs if obj.name == name]
+        if searched_obj: 
+            return searched_obj[0]
+            
+    def sum_all_salaries_of_workers(self):
+        return sum(w.salary for w in self.workers)
+
+    def add_animal(self, animal: (Lion, Cheetah, Tiger), price):
+        if not self.is_enough_space(self.animals, self.__animal_capacity):
             return "Not enough space for animal"
-        if price > self.__budget:
+        
+        if not self.is_enough_budget(self.__budget, price):
             return "Not enough budget"
-        self.__budget -= price
+        
         self.animals.append(animal)
-        return f"{animal.name} the {animal.__class__.__name__} added to the zoo"
-
-    def hire_worker(self, worker):
-        if len(self.workers) >= self.__workers_capacity:
+        self.__budget -= price
+        return f"{animal.name} the {type(animal).__name__} added to the zoo"
+    
+    def hire_worker(self, worker: (Keeper, Caretaker, Vet)):
+        if not self.is_enough_space(self.workers, self.__workers_capacity):
             return "Not enough space for worker"
         self.workers.append(worker)
-        return f"{worker.name} the {worker.__class__.__name__} hired successfully"
-
+        return f"{worker.name} the {type(worker).__name__} hired successfully"
+    
     def fire_worker(self, worker_name):
-        worker = [w for w in self.workers if w.name == worker_name]
-        if not worker:
+        worker_obj = self.find_obj_by_name(self.workers, worker_name)
+        if not worker_obj:
             return f"There is no {worker_name} in the zoo"
-        self.workers.remove(worker[0])
+        self.workers.remove(worker_obj)
         return f"{worker_name} fired successfully"
-
+    
     def pay_workers(self):
-        salaries = sum(w.salary for w in self.workers)
-        if self.__budget < salaries:
+        all_workers_salaries = self.sum_all_salaries_of_workers()
+        if not self.is_enough_budget(self.__budget, all_workers_salaries):
             return "You have no budget to pay your workers. They are unhappy"
-        self.__budget -= salaries
+            
+        self.__budget -= all_workers_salaries
         return f"You payed your workers. They are happy. Budget left: {self.__budget}"
 
     def tend_animals(self):
-        tends = sum(a.get_needs() for a in self.animals)
-        if self.__budget < tends:
+        all_animals_expence = sum(a.get_needs() for a in self.animals)
+        if not self.is_enough_budget(self.__budget, all_animals_expence):
             return "You have no budget to tend the animals. They are unhappy."
-        self.__budget -= tends
+        self.__budget -= all_animals_expence
         return f"You tended all the animals. They are happy. Budget left: {self.__budget}"
 
     def profit(self, amount):
         self.__budget += amount
-
+    
     def animals_status(self):
         result = f"You have {len(self.animals)} animals\n"
 
