@@ -27,4 +27,4 @@ class CardRepository:
     def find(self, name: str):
         obj = [c for c in self.cards if c.name == name][0]
         if obj:
-            return obj
+            return obj[0]
