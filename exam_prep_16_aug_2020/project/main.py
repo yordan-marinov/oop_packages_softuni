@@ -73,7 +73,7 @@ def test_system_init():
 
 
 if __name__ == "__main__":
-    # zero_test()
+    zero_test()
     # test_software_init()
     # test_light_software_init()
     # test_express_software_init()
